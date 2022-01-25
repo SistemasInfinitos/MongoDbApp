@@ -46,7 +46,14 @@ namespace MongoDbApp.Repositorio.EquiposES
         public async Task InsertEquipo(Equipos entidad)
         {
             entidad.fecha = DateTime.Now;
-            await collectin.InsertOneAsync(entidad);
+            try
+            {
+                await collectin.InsertOneAsync(entidad);
+            }
+            catch (Exception X)
+            {
+                throw;
+            }
         }
 
         public async Task UpdateEquipo(Equipos entidad)

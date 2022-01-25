@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentacion", "Documentacion", "{7C3C3063-74BE-42DD-A746-01013CF71FC1}"
 	ProjectSection(SolutionItems) = preProject
 		LEEME.txt = LEEME.txt
+		mongo replica.txt = mongo replica.txt
 	EndProjectSection
 EndProject
 Global
