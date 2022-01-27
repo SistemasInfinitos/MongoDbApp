@@ -27,8 +27,8 @@ config = {
 
 rs.initiate(config)
 rs.status()
-En cada momento podemos saber si estamos en el shell del master con
 
+En cada momento podemos saber si estamos en el shell del master con
 db.isMaster()
 
 1) Si es un secundario; desde el primario tecleamos:
@@ -85,7 +85,7 @@ Acceso a datos
 external image diamond.gifObservación Desde un secundario por defecto no se pueden hacer consultas. para habilitar las consultas debemos habilitarlo con:
 replica:SECONDARY> rs.slaveOk()
 
-// comando actividad inicial
+// comando actividad 1 y 2
 show dbs:  lista las bases de datos existentes
 db: obtiene el nombre de la base de datos actual
 use: crea una nueva base de datos: use TorneoDeportivo

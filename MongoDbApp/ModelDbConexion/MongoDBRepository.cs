@@ -27,7 +27,7 @@ namespace MongoDbApp.Models.ModelDbConexion
                     new MongoServerAddress("localhost", 27003)
                 },
                 ConnectionMode = ConnectionMode.Automatic,
-                ReplicaSetName = "replicaIBERO",
+                ReplicaSetName = "replicaIBERO3",
                 WriteConcern = new WriteConcern(WriteConcern.WValue.Parse("3"), wTimeout: TimeSpan.Parse("10"))
             };
              client = new MongoClient(settings);
