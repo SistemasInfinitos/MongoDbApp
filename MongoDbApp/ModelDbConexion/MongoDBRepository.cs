@@ -30,6 +30,7 @@ namespace MongoDbApp.Models.ModelDbConexion
                 DirectConnection=false,
                 //ReplicaSetName = "replicaTorneoIB",
                 ReplicaSetName = "replicaTorneoP1",
+                //ReplicaSetName = "replicaTorneoP2",
                 WriteConcern = new WriteConcern(WriteConcern.WValue.Parse("3"), wTimeout: TimeSpan.Parse("10"))
             };
              client = new MongoClient(settings);

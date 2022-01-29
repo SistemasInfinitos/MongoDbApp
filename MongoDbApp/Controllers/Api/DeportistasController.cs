@@ -92,7 +92,7 @@ namespace MongoDbApp.Controllers.Api
                     }
                     catch (Exception e)
                     {
-                        data.Message = "Ups!. Algo salio mal!. Error interno. " + x.HResult;
+                        data.Message = "Ups!. Algo salio mal!. Error interno. " + e.HResult;
                     }
                 }
                 else

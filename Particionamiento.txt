@@ -1,26 +1,23 @@
 http://gpd.sip.ucm.es/rafa/docencia/nosql/Sharding.html
-linux  mongod --configsvr --replSet replicaTorneoShardServer --dbpath /dataC1 --port 26001 --fork --logpath /dataC1/log --logappend
 
+Configuración
+
+Teniendo en cuenta que ya las carpetas correspondiente a cada servidor están creadas iniciamos cada uno de ellos 
+
+Inicio server de configuración (Servidores Administrativos)
 start /b mongod --port 26001 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC1
 start /b mongod --port 26002 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC2
 start /b mongod --port 26003 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC3
 
+Creamos La Replica (servidores administrativos)
 
-Para terminar un proceso creado de esta forma hay que usar la opción --shutdown:
-mongod --shutdown --dbpath dataC1 --port 26001
-mongod --shutdown --dbpath dataC1 --port 26002
-mongod --shutdown --dbpath dataC1 --port 26003
-
-mongo -port 26001
 conf = {_id: "replicaTorneoShardServer",
            members: [ {_id:0, host:"127.0.0.1:26001" },
                       {_id:1, host:"127.0.0.1:26002" },
                       {_id:2, host:"127.0.0.1:26003" } ] }
 rs.initiate(conf)
 
-
-LINUX:///mongod --shardsvr --replSet p1 --dbpath p1_1 --logpath p1_1/log --port 27100 --fork --logappend --oplogSize 50
-shardsvr
+Inicio server de base de datos para las particiones (servidores operativos)
 
 start /b mongod --shardsvr --port 27006 --replSet replicaTorneoP1 --dbpath /dataP11 --oplogSize 115
 start /b mongod --shardsvr --port 27007 --replSet replicaTorneoP1 --dbpath /dataP12 --oplogSize 115
@@ -30,14 +27,7 @@ start /b mongod --shardsvr --port 27010 --replSet replicaTorneoP2 --dbpath /data
 start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /dataP23 --oplogSize 115
 mongo -port 27006
 
-5.- Creación de los procesos mongos:
-
-start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --logappend --logpath mongos1
-start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --logappend --logpath mongos1 --port 26601
-
-start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003
-start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --port 26601
-
+Creamos La Replica (Servidores Operativos)
 
 config = {_id: "replicaTorneoP1",
            members: [ 
@@ -53,12 +43,39 @@ config = {_id: "replicaTorneoP2",
            {_id:1, host:"127.0.0.1:27010",arbiterOnly:true },
            {_id:2, host:"127.0.0.1:27011"} ] }
 rs.initiate(config)
- rs.addArb("127.0.0.1:27010")
- db.isMaster()
- rs.status()
- se debe usar el nodo que quedo como primario
+rs.addArb("127.0.0.1:27010")
 
- sh.addShard("replicaTorneoP1/127.0.0.1:27007")
- sh.addShard("replicaTorneoP2/127.0.0.1:27010")
+Creación de los procesos mongos
+start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003
+start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --port 26601
 
- sh.status()
+
+Iniciamos las particiones. 
+sh.addShard("replicaTorneoP1/127.0.0.1:27007")
+sh.addShard("replicaTorneoP2/127.0.0.1:27010")
+
+
+Partimos Las Colecciones
+Habilitamos Sharding
+use TorneoDeportivoIBERO
+sh.enableSharding("TorneoDeportivoIBERO")
+sh.status()
+
+Agregamos Parición A Las Colecciones
+
+sh.shardCollection("TorneoDeportivoIBERO.Deportistas",{documento:1},true)
+
+Ahora podemos insertar valores y comprobar el número de chunks:
+
+db.Deportistas.getShardDistribution()
+
+
+db.chunks.find({ns:"TorneoDeportivoIBERO.Deportistas"},{min:1,max:1, shard:1}).pretty()
+
+
+ db.Deportistas.insert({nombre:"Mauro", numero:2, posicion:"Delentero", documento:"A123467",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"calos", numero:3, posicion:"Delentero", documento:"A123458",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"pedro", numero:4, posicion:"Delentero", documento:"A123459",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"juan", numero:5, posicion:"Delentero", documento:"A123460",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"camilo", numero:6, posicion:"Delentero", documento:"A123461",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+
