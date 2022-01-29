@@ -4,14 +4,14 @@ linux  mongod --configsvr --replSet replicaTorneoShardServer --dbpath /dataC1 --
 start /b mongod --port 26001 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC1
 start /b mongod --port 26002 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC2
 start /b mongod --port 26003 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC3
-chmod 777 -R /dataC1
+
+
 Para terminar un proceso creado de esta forma hay que usar la opción --shutdown:
-mongod --shutdown --dbpath cfg1 --port 26001
-mongod --shutdown --dbpath cfg2 --port 26002
-mongod --shutdown --dbpath cfg3 --port 26003
+mongod --shutdown --dbpath dataC1 --port 26001
+mongod --shutdown --dbpath dataC1 --port 26002
+mongod --shutdown --dbpath dataC1 --port 26003
 
 mongo -port 26001
-
 conf = {_id: "replicaTorneoShardServer",
            members: [ {_id:0, host:"127.0.0.1:26001" },
                       {_id:1, host:"127.0.0.1:26002" },
@@ -28,6 +28,7 @@ start /b mongod --shardsvr --port 27008 --replSet replicaTorneoP1 --dbpath /data
 start /b mongod --shardsvr --port 27009 --replSet replicaTorneoP2 --dbpath /dataP21 --oplogSize 115
 start /b mongod --shardsvr --port 27010 --replSet replicaTorneoP2 --dbpath /dataP22 --oplogSize 115
 start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /dataP23 --oplogSize 115
+mongo -port 27006
 
 5.- Creación de los procesos mongos:
 
@@ -42,20 +43,21 @@ config = {_id: "replicaTorneoP1",
            members: [ 
            {_id:0, host:"127.0.0.1:27006" },
            {_id:1, host:"127.0.0.1:27007" },
-           {_id:2, host:"127.0.0.1:27008" } ] }
+           {_id:2, host:"127.0.0.1:27008",arbiterOnly:true }] }
 rs.initiate(config)
 rs.addArb("127.0.0.1:27008")
 
 config = {_id: "replicaTorneoP2",
            members: [ 
            {_id:0, host:"127.0.0.1:27009" },
-           {_id:1, host:"127.0.0.1:27010" },
-           {_id:2, host:"127.0.0.1:27011" } ] }
+           {_id:1, host:"127.0.0.1:27010",arbiterOnly:true },
+           {_id:2, host:"127.0.0.1:27011"} ] }
 rs.initiate(config)
- rs.addArb("127.0.0.1:27011")
+ rs.addArb("127.0.0.1:27010")
 
  se debe usar el nodo que quedo como primario
 
  sh.addShard("replicaTorneoP1/127.0.0.1:27007")
  sh.addShard("replicaTorneoP2/127.0.0.1:27010")
 
+ sh.status()
