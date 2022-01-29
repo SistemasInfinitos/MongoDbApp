@@ -24,10 +24,12 @@ namespace MongoDbApp.Models.ModelDbConexion
                 {
                     new MongoServerAddress("localhost", 27001),
                     new MongoServerAddress("localhost", 27002),
-                    new MongoServerAddress("localhost", 27003)
+                    new MongoServerAddress("localhost", 27003),
+                    new MongoServerAddress("localhost", 27004)
                 },
-                ConnectionMode = ConnectionMode.Automatic,
-                ReplicaSetName = "replicaIBERO3",
+                //ConnectionMode = ConnectionMode.Automatic,
+                DirectConnection=false,
+                ReplicaSetName = "replicaTorneoIB",
                 WriteConcern = new WriteConcern(WriteConcern.WValue.Parse("3"), wTimeout: TimeSpan.Parse("10"))
             };
              client = new MongoClient(settings);

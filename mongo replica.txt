@@ -1,8 +1,9 @@
 http://gpd.sip.ucm.es/rafa/docencia/nosql/Replicas.html
 
-mongod --port 27001 --replSet replicaIBERO --dbpath /data1 --oplogSize 1150
-mongod --port 27002 --replSet replicaIBERO --dbpath /data2 --oplogSize 1150
-mongod --port 27003 --replSet replicaIBERO --dbpath /data3 --oplogSize 1150
+mongod --port 27001 --replSet replicaTorneoIB --dbpath /data1 --oplogSize 115
+mongod --port 27002 --replSet replicaTorneoIB --dbpath /data2 --oplogSize 115
+mongod --port 27003 --replSet replicaTorneoIB --dbpath /data3 --oplogSize 115
+mongod --port 27004 --replSet replicaTorneoIB --dbpath /data4 --oplogSize 115
 
 db.shutdownServer()
 
@@ -14,12 +15,12 @@ mongo --port 27002
 mongo --port 27003
 
 config = {
-              _id: "replicaIBERO",
- 
+              _id: "replicaTorneoIB",
               members: [ 
               {_id:0, host:"127.0.0.1:27001" },
               {_id:1, host:"127.0.0.1:27002" },
-              {_id:2, host:"127.0.0.1:27003" }]
+              {_id:2, host:"127.0.0.1:27003" },]}
+              {_id:3, host:"127.0.0.1:27004",arbiterOnly:true }]
  }
 
  usar solo para dejar server como de de backup {_id:3, host:"127.0.0.1:27004", priority:0, slaveDelay:60 }
