@@ -4,6 +4,7 @@ mongod --port 27001 --replSet replicaTorneoIB --dbpath /data1 --oplogSize 115
 mongod --port 27002 --replSet replicaTorneoIB --dbpath /data2 --oplogSize 115
 mongod --port 27003 --replSet replicaTorneoIB --dbpath /data3 --oplogSize 115
 mongod --port 27004 --replSet replicaTorneoIB --dbpath /data4 --oplogSize 115
+mongod --port 27005 --replSet replicaTorneoIB --dbpath /data5 --oplogSize 115
 
 db.shutdownServer()
 
@@ -20,8 +21,8 @@ config = {
               {_id:0, host:"127.0.0.1:27001" },
               {_id:1, host:"127.0.0.1:27002" },
               {_id:2, host:"127.0.0.1:27003" },]}
-              {_id:3, host:"127.0.0.1:27004",arbiterOnly:true }]
- }
+Agregar arbitro 
+ rs.addArb("127.0.0.1:27005")
 
  usar solo para dejar server como de de backup {_id:3, host:"127.0.0.1:27004", priority:0, slaveDelay:60 }
  Ahora ya se puede crear el conjunto réplica con:
@@ -34,17 +35,16 @@ db.isMaster()
 
 1) Si es un secundario; desde el primario tecleamos:
 
-    var a = connect("127.0.0.1:27001/admin");
-    a.shutdownServer()
-    rs.status()
+var a = connect("127.0.0.1:27001/admin");
+a.shutdownServer()
+rs.status()
     
-    var a = connect("127.0.0.1:27002/admin");
-    a.shutdownServer()
-    rs.status()
-
-     var a = connect("127.0.0.1:27003/admin");
-    a.shutdownServer()
-    rs.status()
+var a = connect("127.0.0.1:27002/admin");
+a.shutdownServer()
+rs.status()
+var a = connect("127.0.0.1:27003/admin");
+a.shutdownServer()
+rs.status()
 
 El secundario seguirá estando en el conjunto réplica a efectos "administrativos" (es decir rs.status lo mostrará), pero sin conexión. En particular su proceso mongod habrá desaparecido. Esto es útil para labores de mantenimiento, si luego se planea vlver a activarlo, haciendo por ejemplo:
 
