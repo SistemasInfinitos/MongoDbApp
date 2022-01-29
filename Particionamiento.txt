@@ -51,8 +51,8 @@ start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26
 
 
 Iniciamos las particiones. 
-sh.addShard("replicaTorneoP1/127.0.0.1:27007")
-sh.addShard("replicaTorneoP2/127.0.0.1:27010")
+sh.addShard("replicaTorneoP1/127.0.0.1:27007,127.0.0.1:27006")
+sh.addShard("replicaTorneoP2/127.0.0.1:27009,127.0.0.1:27011")
 
 
 Partimos Las Colecciones
