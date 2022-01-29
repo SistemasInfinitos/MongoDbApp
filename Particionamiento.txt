@@ -54,7 +54,8 @@ config = {_id: "replicaTorneoP2",
            {_id:2, host:"127.0.0.1:27011"} ] }
 rs.initiate(config)
  rs.addArb("127.0.0.1:27010")
-
+ db.isMaster()
+ rs.status()
  se debe usar el nodo que quedo como primario
 
  sh.addShard("replicaTorneoP1/127.0.0.1:27007")

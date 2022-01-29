@@ -47,8 +47,15 @@ namespace MongoDbApp.Repositorio.DeportistasES
 
         public async Task InsertDeportistas(Deportistas jugador)
         {
-            jugador.fecha =  DateTime.Now;
-            await collectin.InsertOneAsync(jugador);
+            try
+            {
+                jugador.fecha = DateTime.Now;
+                await collectin.InsertOneAsync(jugador);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task UpdateDeportistas(Deportistas jugador)

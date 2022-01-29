@@ -85,7 +85,15 @@ namespace MongoDbApp.Controllers.Api
             {
                 if (ModelState.IsValid)
                 {
-                     await Task.Run(() => _repositoryDeportistas.InsertDeportistas(entidad));
+                    try
+                    {
+                        await Task.Run(() => _repositoryDeportistas.InsertDeportistas(entidad));
+                        return Created("Created", true);
+                    }
+                    catch (Exception e)
+                    {
+                        data.Message = "Ups!. Algo salio mal!. Error interno. " + x.HResult;
+                    }
                 }
                 else
                 {
@@ -102,7 +110,7 @@ namespace MongoDbApp.Controllers.Api
                     }
                     return BadRequest(data);
                 }
-                return Created("Created",true);
+                return BadRequest(data);
             }
             catch (Exception x)
             {

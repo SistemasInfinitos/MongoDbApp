@@ -22,14 +22,14 @@ namespace MongoDbApp.Models.ModelDbConexion
             {
                 Servers = new[]
                 {
-                    new MongoServerAddress("localhost", 27001),
-                    new MongoServerAddress("localhost", 27002),
-                    new MongoServerAddress("localhost", 27003),
-                    new MongoServerAddress("localhost", 27004)
+                    new MongoServerAddress("localhost", 27006),
+                    new MongoServerAddress("localhost", 27007),
+                    new MongoServerAddress("localhost", 27008),
                 },
                 //ConnectionMode = ConnectionMode.Automatic,
                 DirectConnection=false,
-                ReplicaSetName = "replicaTorneoIB",
+                //ReplicaSetName = "replicaTorneoIB",
+                ReplicaSetName = "replicaTorneoP1",
                 WriteConcern = new WriteConcern(WriteConcern.WValue.Parse("3"), wTimeout: TimeSpan.Parse("10"))
             };
              client = new MongoClient(settings);
