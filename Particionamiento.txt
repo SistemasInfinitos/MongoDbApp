@@ -8,7 +8,7 @@ Inicio server de configuración (Servidores Administrativos)
 start /b mongod --port 26001 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC1
 start /b mongod --port 26002 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC2
 start /b mongod --port 26003 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC3
-
+mongo -port 26001
 Creamos La Replica (servidores administrativos)
 
 conf = {_id: "replicaTorneoShardServer",
@@ -22,11 +22,7 @@ Inicio server de base de datos para las particiones (servidores operativos)
 start /b mongod --shardsvr --port 27006 --replSet replicaTorneoP1 --dbpath /dataP11 --oplogSize 115
 start /b mongod --shardsvr --port 27007 --replSet replicaTorneoP1 --dbpath /dataP12 --oplogSize 115
 start /b mongod --shardsvr --port 27008 --replSet replicaTorneoP1 --dbpath /dataP13 --oplogSize 115
-start /b mongod --shardsvr --port 27009 --replSet replicaTorneoP2 --dbpath /dataP21 --oplogSize 115
-start /b mongod --shardsvr --port 27010 --replSet replicaTorneoP2 --dbpath /dataP22 --oplogSize 115
-start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /dataP23 --oplogSize 115
 mongo -port 27006
-
 Creamos La Replica (Servidores Operativos)
 
 config = {_id: "replicaTorneoP1",
@@ -36,6 +32,15 @@ config = {_id: "replicaTorneoP1",
            {_id:2, host:"127.0.0.1:27008",arbiterOnly:true }] }
 rs.initiate(config)
 rs.addArb("127.0.0.1:27008")
+
+
+start /b mongod --shardsvr --port 27009 --replSet replicaTorneoP2 --dbpath /dataP21 --oplogSize 115
+start /b mongod --shardsvr --port 27010 --replSet replicaTorneoP2 --dbpath /dataP22 --oplogSize 115
+start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /dataP23 --oplogSize 115
+
+mongo -port 27009
+
+Creamos La Replica (Servidores Operativos)
 
 config = {_id: "replicaTorneoP2",
            members: [ 
@@ -51,9 +56,10 @@ start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26
 
 
 Iniciamos las particiones. 
+mongos>
 sh.addShard("replicaTorneoP1/127.0.0.1:27007,127.0.0.1:27006")
 sh.addShard("replicaTorneoP2/127.0.0.1:27009,127.0.0.1:27011")
-
+sh.status()
 
 Partimos Las Colecciones
 Habilitamos Sharding
@@ -73,9 +79,44 @@ db.Deportistas.getShardDistribution()
 db.chunks.find({ns:"TorneoDeportivoIBERO.Deportistas"},{min:1,max:1, shard:1}).pretty()
 
 
- db.Deportistas.insert({nombre:"Mauro", numero:2, posicion:"Delentero", documento:"A123467",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+
+db.Deportistas.insert({
+    "idTex": "",
+    "nombre": "MAURICIO",
+    "numero": 1,
+    "posicion": "Delantero",
+    "documento": "1234567",
+    "fecha": {
+        "$date": "2022-01-30T03:41:18.962Z"
+    },
+    "fechaTex": null,
+    "idEquipo": "61f60881856481aa4efd43a8"
+})
+
+db.Deportistas.insert({
+    "idTex": "",
+    "nombre": "Jhonny",
+    "numero": 2,
+    "posicion": "Delantero",
+    "documento": "1234568",
+    "fecha": new Date("2022-01-29"),
+    "fechaTex": null,
+    "idEquipo": "61f60881856481aa4efd43a8"
+})
+
+
+
+{"_id":{"$oid":"61f608de856481aa4efd43a9"},"idTex":"","nombre":"MAURICIO","numero":1,"posicion":"Delantero","documento":"1234567","fecha":{"$date":"2022-01-30T03:41:18.962Z"},"fechaTex":null,"idEquipo":"61f60881856481aa4efd43a8"}
+
+ db.Deportistas.insert({nombre:"Mauro", numero:1, posicion:"Delentero", documento:"A123466",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"Bello", numero:2, posicion:"Delentero", documento:"A123467",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
  db.Deportistas.insert({nombre:"calos", numero:3, posicion:"Delentero", documento:"A123458",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
  db.Deportistas.insert({nombre:"pedro", numero:4, posicion:"Delentero", documento:"A123459",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
  db.Deportistas.insert({nombre:"juan", numero:5, posicion:"Delentero", documento:"A123460",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
  db.Deportistas.insert({nombre:"camilo", numero:6, posicion:"Delentero", documento:"A123461",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"Jhony", numero:7, posicion:"Delentero", documento:"A123462",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"Pablo", numero:8, posicion:"Delentero", documento:"A123463",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"Andres", numero:9, posicion:"Delentero", documento:"A123464",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"Yor", numero:10, posicion:"Delentero", documento:"A123465",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
+ db.Deportistas.insert({nombre:"Dina", numero:11, posicion:"Delentero", documento:"A123468",idEquipo:"61f5b60edd405806b5626994",fecha:Date("2022-01-29")})
 

@@ -42,7 +42,14 @@ namespace MongoDbApp.Repositorio.DeportistasES
 
         public async Task<List<Deportistas>> GetListDeportistas()
         {
-            return await collectin.FindAsync(new BsonDocument()).Result.ToListAsync();
+            try
+            {
+                return await collectin.FindAsync(new BsonDocument()).Result.ToListAsync();
+            }
+            catch (Exception x)
+            {
+                throw;
+            }        
         }
 
         public async Task InsertDeportistas(Deportistas jugador)

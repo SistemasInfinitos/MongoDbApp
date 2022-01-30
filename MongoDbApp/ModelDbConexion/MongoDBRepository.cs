@@ -27,12 +27,12 @@ namespace MongoDbApp.Models.ModelDbConexion
                     //new MongoServerAddress("localhost", 26002),
                     //new MongoServerAddress("localhost", 26003),
 
-                    new MongoServerAddress("localhost", 27006),
-                    new MongoServerAddress("localhost", 27007),
-                    new MongoServerAddress("localhost", 27008),
-                    //new MongoServerAddress("localhost", 27009),
-                    //new MongoServerAddress("localhost", 27010),
-                    //new MongoServerAddress("localhost", 27011)
+                    //new MongoServerAddress("localhost", 27006),
+                    //new MongoServerAddress("localhost", 27007),
+                    //new MongoServerAddress("localhost", 27008),
+                    new MongoServerAddress("localhost", 27009),
+                    new MongoServerAddress("localhost", 27010),
+                    new MongoServerAddress("localhost", 27011)
                 },
                 //ApplicationName = "appTorneoDeportivo",
                 ConnectionMode = ConnectionMode.ReplicaSet,
@@ -40,7 +40,7 @@ namespace MongoDbApp.Models.ModelDbConexion
                 ReadPreference = ReadPreference.Secondary,
                 //DirectConnection=false,
                 //ReplicaSetName = "replicaTorneoIB",
-                ReplicaSetName = "replicaTorneoP1",
+                ReplicaSetName = "replicaTorneoP2",
                 //ReplicaSetName = "replicaTorneoP2",
                 //ReplicaSetName = "replicaTorneoShardServer",
                 //ReplicaSetName = "replicaTorneoP2",
