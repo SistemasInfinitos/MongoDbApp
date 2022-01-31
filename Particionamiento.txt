@@ -63,20 +63,24 @@ sh.status()
 
 Partimos Las Colecciones
 Habilitamos Sharding
-use TorneoDeportivoIBERO
-sh.enableSharding("TorneoDeportivoIBERO")
+use TorneoDeportivo2
+sh.enableSharding("TorneoDeportivo2")
 sh.status()
 
 Agregamos Parición A Las Colecciones
+use TorneoDeportivo2
+db
+db.createCollection("Deportistas")
+sh.shardCollection("TorneoDeportivo2.Deportistas",{"documento":"hashed"})
 
-sh.shardCollection("TorneoDeportivoIBERO.Deportistas",{documento:1},true)
+sh.shardCollection("TorneoDeportivo2.Deportistas",{"documento":1,"nombre":1})
+
 
 Ahora podemos insertar valores y comprobar el número de chunks:
 
 db.Deportistas.getShardDistribution()
 
-
-db.chunks.find({ns:"TorneoDeportivoIBERO.Deportistas"},{min:1,max:1, shard:1}).pretty()
+db.chunks.find({ns:"TorneoDeportivo2.Deportistas"},{min:1,max:1, shard:1}).pretty()
 
 
 
