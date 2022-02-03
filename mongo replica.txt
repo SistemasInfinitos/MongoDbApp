@@ -24,6 +24,8 @@ config = {
               {_id:2, host:"127.0.0.1:27003" },]}
 Agregar arbitro 
  rs.addArb("127.0.0.1:27005")
+ rs.add( {  host:"127.0.0.1:270011" } )
+ rs.add( {  host:"127.0.0.1:270012" } )
 
  usar solo para dejar server como de de backup {_id:3, host:"127.0.0.1:27004", priority:0, slaveDelay:60 }
  Ahora ya se puede crear el conjunto réplica con:

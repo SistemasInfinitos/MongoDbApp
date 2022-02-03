@@ -67,9 +67,16 @@ namespace MongoDbApp.Repositorio.DeportistasES
 
         public async Task UpdateDeportistas(Deportistas jugador)
         {
-            var filtro = Builders<Deportistas>.Filter.Eq(x => x.id, jugador.id);
-            jugador.fecha = DateTime.Now;
-            await collectin.ReplaceOneAsync(filtro,jugador);
+            try
+            {
+                var filtro = Builders<Deportistas>.Filter.Eq(x => x.id, jugador.id);
+                jugador.fecha = DateTime.Now;
+                var update= await collectin.ReplaceOneAsync(filtro, jugador);
+            }
+            catch (MongoException x)
+            {
+                throw;
+            }
         }
     }
 }
