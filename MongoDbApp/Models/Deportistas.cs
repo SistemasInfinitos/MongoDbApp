@@ -11,6 +11,8 @@ namespace MongoDbApp.Models
     {
         [BsonId]
         public ObjectId id { get; set; }
+
+        [BsonIgnore]
         public string idTex { get; set; }
 
         /// <summary>
@@ -37,6 +39,8 @@ namespace MongoDbApp.Models
         /// fecha registro
         /// </summary>
         public DateTime fecha { get; set; }
+
+        [BsonIgnore]
         public string fechaTex { get; set; }
 
         /// <summary>

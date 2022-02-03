@@ -12,10 +12,13 @@ namespace MongoDbApp.Models
         [BsonId]
         public ObjectId id { get; set; }
 
+        [BsonIgnore]
         public virtual string idTex { get; set; }
 
         public string nombreEquipo { get; set; }
         public DateTime fecha { get; set; }
+
+        [BsonIgnore]
         public virtual string fechaTex { get; set; }
 
     }
