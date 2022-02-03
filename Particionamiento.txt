@@ -1,5 +1,18 @@
 http://gpd.sip.ucm.es/rafa/docencia/nosql/Sharding.html
 
+start /b mongod --port 26001 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC1
+start /b mongod --port 26002 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC2
+start /b mongod --port 26003 --configsvr --replSet replicaTorneoShardServer --dbpath /dataC3
+start /b mongod --shardsvr --port 27006 --replSet replicaTorneoP1 --dbpath /dataP11 --oplogSize 115
+start /b mongod --shardsvr --port 27007 --replSet replicaTorneoP1 --dbpath /dataP12 --oplogSize 115
+start /b mongod --shardsvr --port 27008 --replSet replicaTorneoP1 --dbpath /dataP13 --oplogSize 115
+start /b mongod --shardsvr --port 27009 --replSet replicaTorneoP2 --dbpath /dataP21 --oplogSize 115
+start /b mongod --shardsvr --port 27010 --replSet replicaTorneoP2 --dbpath /dataP22 --oplogSize 115
+start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /dataP23 --oplogSize 115
+start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003
+start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --port 26601
+sh.status()
+
 Configuración
 
 Teniendo en cuenta que ya las carpetas correspondiente a cada servidor están creadas iniciamos cada uno de ellos 

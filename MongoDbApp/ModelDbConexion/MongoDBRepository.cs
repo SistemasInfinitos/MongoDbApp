@@ -23,10 +23,6 @@ namespace MongoDbApp.Models.ModelDbConexion
                 Servers = new[]
                 {
                     new MongoServerAddress("localhost", 27017),
-                    //new MongoServerAddress("localhost", 26001),
-                    //new MongoServerAddress("localhost", 26002),
-                    //new MongoServerAddress("localhost", 26003),
-
                     //new MongoServerAddress("localhost", 27006),
                     //new MongoServerAddress("localhost", 27007),
                     //new MongoServerAddress("localhost", 27008),
