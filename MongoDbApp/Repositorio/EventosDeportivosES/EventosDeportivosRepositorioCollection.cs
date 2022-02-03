@@ -82,30 +82,30 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
                 }
 
             }
-            return listEncuentros;
+
 
             // esto obtiene consultas unidas entre tablas pero no se como se serializan los datos dentro de EncuentrosDeportivos
             #region
-            //var query = from eco in collectinEncuentrosDeportivos.AsQueryable()
-            //        join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.idTex into joined
-            //        select new { eco.temporada }; 
+            var query = from eco in collectinEncuentrosDeportivos.AsQueryable()
+                        join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.idTex into joined
+                        select new { eco.temporada };
 
 
-            //var docs = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").ToList();
-            //var docs = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
-            //var dd= collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
+            var docs = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").ToList();
+            var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
+            var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
 
 
-            //var res =collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
-            // Entonces lo necesitas para convertir a JSON
+            var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
+            //Entonces lo necesitas para convertir a JSON
 
-            //String ConvertToJson = docs[0].AsBsonDocument.ToJson();
-            //String resultsConvertToJson = ConvertToJson.ToJson();
+            String ConvertToJson = docs[0].AsBsonDocument.ToJson();
+            String resultsConvertToJson = ConvertToJson.ToJson();
 
             //Luego use BSONSerialize y colóquelo en C# Strongly typed Collection
 
-            //List<EncuentrosDeportivos> results = BsonSerializer.Deserialize<List<EncuentrosDeportivos>>(ConvertToJson,null);
-
+            //List<EncuentrosDeportivos> results = BsonSerializer.Deserialize<List<EncuentrosDeportivos>>(ConvertToJson, null);
+            return listEncuentros;
             #endregion
         }
 
