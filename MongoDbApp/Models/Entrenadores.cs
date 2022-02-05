@@ -10,7 +10,8 @@ namespace MongoDbApp.Models
     public class Entrenadores
     {
         [BsonId]
-        public ObjectId id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string idEquipo { get; set; }
@@ -18,9 +19,6 @@ namespace MongoDbApp.Models
         public string documento { get; set; }
         public DateTime fecha { get; set; }
 
-
-        [BsonIgnore]
-        public virtual string idTex { get; set; }
         [BsonIgnore]
         public virtual string fechaTex { get; set; }
     }

@@ -121,7 +121,6 @@ namespace MongoDbApp.Controllers.Api
             {
                 if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.id))
                 {
-                    //entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
                     await Task.Run(() => _repositoryArbitros.UpdateArbitro(entidad));
                 }
                 else

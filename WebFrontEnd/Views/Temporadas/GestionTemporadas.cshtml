@@ -22,7 +22,7 @@
             <form class="user" style="margin:2%">
                 <div class="form-group row">
                     <div class="col-sm-3 mb-3 mb-sm-3" hidden>
-                        <input type="number" class="form-control" id="idText" name="idText" placeholder="Id" required readonly>
+                        <input type="number" class="form-control" id="id" name="id" placeholder="Id" required readonly>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-3">
                         <label class="col-form-label" name="temporada"><span style="color:red">*</span>Temporadas</label>
@@ -47,7 +47,7 @@
 </div>
 <script>
     var update = false;
-    var idText = "";
+    var id = "";
 
     $(document).ready(function () {
         $("#fechaInicio").val();
@@ -71,7 +71,7 @@
     $("#btnCrear").click(function () {
 
         var data = {
-            idTex: idText,
+            id: id,
             temporada: $("#temporada").val(),
             fechaInicio: $("#fechaInicio").val(),
             fechaFin: $("#fechaFin").val()
@@ -105,7 +105,7 @@
                 }
             });
         }
-        else if (idText != "" && idText != undefined && idText != NaN) {
+        else if (id != "" && id != undefined && id != NaN) {
             $.ajax({
                 url: 'https://localhost:44331/api/Temporadas/UpdateTemporada',
                 'type': 'PUT',
@@ -138,7 +138,7 @@
     });
 
     function getTemporada() {
-        var id= '@ViewBag.idString';
+        id= '@ViewBag.idString';
         if (id != "" && id != undefined && id != NaN) {
             var uri = 'https://localhost:44331/api/Temporadas/GetUnaTemporadaById';
             var url = uri + '?' + $.param({ "id": id });
@@ -146,7 +146,7 @@
                 url: url,
                 type: 'get',
                 success: function (data) {
-                    $("#idText").val("");
+                    $("#id").val("");
                     $("#temporada").val("");
                     $("#fechaInicio").val("");
                     $("#fechaFin").val("");
@@ -155,8 +155,8 @@
                         toastr.success(data.response.message);
                         update = true;
 
-                        idText = data.temporada.idTex;
-                        $("#idText").val(data.temporada.idTex);
+                        id = data.temporada.id;
+                        $("#id").val(data.temporada.id);
                         $("#temporada").val(data.temporada.temporada);
                         $("#fechaInicio").val(data.temporada.fechaInicioTex);
                         $("#fechaFin").val(data.temporada.fechaFinTex);

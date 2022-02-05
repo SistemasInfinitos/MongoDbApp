@@ -56,7 +56,7 @@
                         $('#tableTemporadas').find('tbody').append(
                             `<tr id="">
                                 <td align="right">
-                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionTemporadas('${response.temporadas[i].idTex}')">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionTemporadas('${response.temporadas[i].id}')">
                                         <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
                                     </button>
                                 </td>
@@ -65,7 +65,7 @@
                                 <td align="right">${ response.temporadas[i].fechaFinTex}</td>
                                 <td align="right">${ response.temporadas[i].fechaTex}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarTemporada('${response.temporadas[i].idTex}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarTemporada('${response.temporadas[i].id}')">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>

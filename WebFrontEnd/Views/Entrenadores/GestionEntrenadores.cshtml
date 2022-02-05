@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "GestionEntrenadores";
+    ViewData["Title"] = "Gestion Entrenadores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#home1">Gestión Árbitros</a>
+                <a data-toggle="tab" class="nav-link" href="#home1">@ViewData["Title"]</a>
             </li>
 
         </ul>
@@ -22,7 +22,7 @@
             <form class="user" style="margin:2%">
                 <div class="form-group row">
                     <div class="col-sm-3 mb-3 mb-sm-3" hidden>
-                        <input type="number" class="form-control" id="idText" name="idText" placeholder="Id" required readonly>
+                        <input type="number" class="form-control" id="id" name="id" placeholder="Id" required readonly>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-3">
                         <label class="col-form-label" name="Nombre"><span style="color:red">*</span>Nombre</label>
@@ -49,7 +49,7 @@
 </div>
 <script>
     var update = false;
-    var idText = "";
+    var id = "";
     var idEquipo = "";
 
     $(document).ready(function () {
@@ -59,11 +59,13 @@
     });
 
     $("#btnCrear").click(function () {
+        var idEquipo = $("#idEquipo").val();
+        debugger
         var data = {
-            idTex: idText,
+            id: id,
             nombre: $("#nombre").val(),
             documento: $("#documento").val(),
-            idEquipo: $("#idEquipo").val()
+            idEquipo: idEquipo
         }
         var entidad = JSON.stringify(data);
         if (update == false) {
@@ -93,7 +95,7 @@
                 }
             });
         }
-        else if (idText != "" && idText != undefined && idText != NaN) {
+        else if (id != "" && id != undefined && id != NaN) {
             $.ajax({
                 url: 'https://localhost:44331/api/Entrenadores/UpdateEntrenador',
                 'type': 'PUT',
@@ -126,7 +128,7 @@
     });
 
     function getEntrenadores() {
-        var id= '@ViewBag.idString';
+        id= '@ViewBag.idString';
         if (id != "" && id != undefined && id != NaN) {
             var uri = 'https://localhost:44331/api/Entrenadores/GetUnEntrenadorById';
             var url = uri + '?' + $.param({ "id": id });
@@ -134,17 +136,17 @@
                 url: url,
                 type: 'get',
                 success: function (data) {
-                    $("#idText").val("");
+                    $("#id").val("");
                     $("#nombre").val("");
                     $("#documento").val("");
                     $("#idEquipo").val("");
-
+                    debugger
                     if (data.response.ok) {
                         toastr.success(data.response.message);
                         update = true;
 
-                        idText = data.entrenador.idTex;
-                        $("#idText").val(data.entrenador.idTex);
+                        id = data.entrenador.id;
+                        $("#id").val(data.entrenador.id);
                         $("#nombre").val(data.entrenador.nombre);
                         $("#documento").val(data.entrenador.documento);
                         idEquipo=data.entrenador.idEquipo;
@@ -175,11 +177,11 @@
             },
             success: function (data) {
                 $('#idEquipo').empty();
-                debugger
+                
                 if (data.ok) {
                     $(data.equipos).each(function (i) {
                         $('#idEquipo').append($('<option>', {
-                            value: data.equipos[i].idTex,
+                            value: data.equipos[i].id,
                             text: data.equipos[i].nombreEquipo,
                         }));
                     });

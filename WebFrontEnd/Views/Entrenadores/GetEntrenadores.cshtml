@@ -55,7 +55,7 @@
                         $('#tableEntrenadores').find('tbody').append(
                             `<tr id="">
                                 <td align="right">
-                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionEntrenadores('${response.entrenadores[i].idTex}')">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionEntrenadores('${response.entrenadores[i].id}')">
                                         <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
                                     </button>
                                 </td>
@@ -63,7 +63,7 @@
                                 <td align="right">${ response.entrenadores[i].documento}</td>
                                 <td align="right">${ response.entrenadores[i].fechaTex}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarEntrenador('${response.entrenadores[i].idTex}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarEntrenador('${response.entrenadores[i].id}')">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>

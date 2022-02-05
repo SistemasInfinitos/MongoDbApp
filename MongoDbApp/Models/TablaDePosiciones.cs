@@ -12,7 +12,8 @@ namespace MongoDbApp.Models
     public class TablaDePosiciones
     {
         [BsonId]
-        public ObjectId id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
         public string temporada { get; set; }
         public int equipo { get; set; }
         public DateTime fecha { get; set; }

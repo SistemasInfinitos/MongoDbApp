@@ -69,11 +69,25 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
                 {
                     foreach (var resultado in item.listResultados)
                     {
-                        var equipo = await collectinEquipos.FindAsync(new BsonDocument { { "_id", new ObjectId(resultado.idEquipo) } }).Result.FirstAsync();
+                        var equipo = await collectinEquipos.FindAsync(x => x.id == resultado.idEquipo).Result.FirstAsync();
                         resultado.equipo = equipo.nombreEquipo;
 
-                        var jugador = await collectinDeportistas.FindAsync(new BsonDocument { { "_id", new ObjectId(resultado.idDeportista) } }).Result.FirstAsync();
-                        resultado.deportista = jugador.nombre;
+                        try
+                        {
+                            if (resultado.idDeportista!=null)
+                            {
+                                //var jugador = await collectinDeportistas.WHE(new BsonDocument { { "_id", new ObjectId(resultado.idDeportista) } }).Result.FirstAsync();
+
+                                var jugador = await collectinDeportistas.FindAsync(x => x.id == resultado.idDeportista).Result.FirstAsync();
+                                resultado.deportista = jugador.nombre;
+                            }
+
+                        }
+                        catch (Exception X)
+                        {
+
+                            throw;
+                        }
 
                         var counA = +item.listResultados.Where(x => x.idEquipo == item.asEquiposA.id.ToString()).Select(x => x.goles).ToList().Sum();
                         var counB = +item.listResultados.Where(x => x.idEquipo == item.asEquiposB.id.ToString()).Select(x => x.goles).ToList().Sum();
@@ -87,7 +101,7 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             #region
 
             //var query = from eco in collectinEncuentrosDeportivos.AsQueryable()
-            //            join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.idTex into joined
+            //            join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.id into joined
             //            select new { eco.temporada };
 
 
@@ -97,11 +111,11 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             //.ToList(); 
 
             var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas").ToList();
-            var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
+            var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "id", "asTemporadas").As<BsonDocument>().ToList();
             //var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
 
 
-            //var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
+            //var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "id", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
 
             var i = 0;
             //var query2 = collectinEncuentrosDeportivos.Aggregate()

@@ -31,7 +31,6 @@ namespace MongoDbApp.Controllers.Api
             var entrenadores = await Task.Run(() => _repositoryEntrenadores.GetListEntrenadores());
             foreach (var item in entrenadores)
             {
-                item.idTex = item.id.ToString();
                 item.fechaTex = item.fecha.ToString("yyyy-MM-dd", culture);
             }
             if (entrenadores != null || entrenadores.Count() > 0)
@@ -55,9 +54,8 @@ namespace MongoDbApp.Controllers.Api
             if (!string.IsNullOrWhiteSpace(id))
             {
                 var entrenador = await Task.Run(() => _repositoryEntrenadores.GetEntrenadorById(id));
-                if (entrenador != null && entrenador.id.Increment > 0)
+                if (entrenador != null)
                 {
-                    entrenador.idTex = entrenador.id.ToString();
                     response.Message = "ok";
                     response.Ok = true;
                     var data = new { entrenador, response };
@@ -121,9 +119,8 @@ namespace MongoDbApp.Controllers.Api
             };
             try
             {
-                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.idTex))
+                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.id))
                 {
-                    entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
                     await Task.Run(() => _repositoryEntrenadores.UpdateEntrenador(entidad));
                 }
                 else

@@ -20,7 +20,7 @@ namespace MongoDbApp.Repositorio.EntrenadoresES
         }
         public async Task DeleteEntrenador(string id)
         {
-            var filtro = Builders<Entrenadores>.Filter.Eq(x => x.id, new MongoDB.Bson.ObjectId(id));
+            var filtro = Builders<Entrenadores>.Filter.Eq(x => x.id, id);
             await collectin.DeleteOneAsync(filtro);
         }
 

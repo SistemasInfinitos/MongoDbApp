@@ -110,7 +110,12 @@ db.Equipos.insert({nombreEquipo:"Colombia",fechaTex:"2022-01-16"})
 db.createCollection("Temporadas")
 db.Temporadas.insert({temporada:"Ibero 2022",fechaTex:"2022-01-16",fechaInicio:"2022-01-16", fechaFin:"2022-05-16", idEquipo: "1234567890987654"})
 
-db.EncuentrosDeportivos.find({_id:"61e313e89746b6c6b700ad3c"})
+db.Deportistas.find({_id:ObjectId("61feb52c4540aba5ee33bf7b")}).pretty()
 db.EncuentrosDeportivos.find().pretty()
+
+
+db.Deportistas.find().pretty()
+
+db.Deportistas.drop()
 
 
