@@ -110,8 +110,8 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             //.Sort(new BsonDocument("other.name", -1))
             //.ToList(); 
 
-            var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas").ToList();
-            var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "id", "asTemporadas").As<BsonDocument>().ToList();
+            var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "_id", "asTemporadas").ToList();
+            var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "_id", "asTemporadas").As<BsonDocument>().ToList();
             //var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
 
 
