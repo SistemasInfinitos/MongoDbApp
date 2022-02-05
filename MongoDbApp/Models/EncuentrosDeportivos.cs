@@ -29,17 +29,7 @@ namespace MongoDbApp.Models
         public List<ResultadosEquipo> listResultadosEquipo { get; set; }
 
     }
-    public class Encuentros 
-    {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string id { get; set; }
-        public string encuentro { get; set; }
-        public string nombreEquipo { get; set; }
-        public DateTime fecha { get; set; }
-        public List<Resultados> listResultados { get; set; }
-        public List<ResultadosEquipo> listResultadosEquipo { get; set; }
-    }
+
     public class ReadOnlyEncuentrosDeportivos
     {
         [BsonIgnore]

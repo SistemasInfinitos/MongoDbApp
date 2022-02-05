@@ -93,42 +93,24 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
                         var counB = +item.listResultados.Where(x => x.idEquipo == item.asEquiposB.id.ToString()).Select(x => x.goles).ToList().Sum();
                     }
                 }
-
             }
 
 
-            // esto obtiene consultas unidas entre tablas pero no se como se serializan los datos dentro de EncuentrosDeportivos
             #region
 
-            //var query = from eco in collectinEncuentrosDeportivos.AsQueryable()
-            //            join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.id into joined
-            //            select new { eco.temporada };
+            var query = (from eco in collectinEncuentrosDeportivos.AsQueryable()
+                        join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.id
+                        join equipoA in collectinEquipos.AsQueryable() on eco.idEquipoA equals equipoA.id
+                        join equipoB in collectinEquipos.AsQueryable() on eco.idEquipoB equals equipoB.id
+                        join arbitro in collectinArbitros.AsQueryable() on eco.idArbitro equals arbitro.id
+                        select new { eco.id,tem.temporada, equipoa=equipoA.nombreEquipo, equipob=equipoB.nombreEquipo ,arbitros=arbitro.nombre }).ToList();
 
-
-            //var docs = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas")
-            //.Project(p => new {id= p.GetValue("id"), nombreEquipo=p.GetValue("nombreEquipo") })
-            //.Sort(new BsonDocument("other.name", -1))
-            //.ToList(); 
 
             var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "_id", "asTemporadas").ToList();
             var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "_id", "asTemporadas").As<BsonDocument>().ToList();
+            var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "_id", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
             //var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
 
-
-            //var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "id", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
-
-            var i = 0;
-            //var query2 = collectinEncuentrosDeportivos.Aggregate()
-            //    //.Match(p => listNames.Contains(p.name))
-            //    .Lookup(
-            //      foreignCollection: collectinEquipos,
-            //      localField: e => e.idEquipoA,
-            //      foreignField: f => f.id,
-            //      @as: (Encuentros eo) => eo.encuentro
-            //    )
-            //    .Project(p => new { p.id, p.nombreEquipo })
-            //    //.Sort(new BsonDocument("other.name", -1))
-            //    .ToList();
 
             return listEncuentros;
             #endregion
