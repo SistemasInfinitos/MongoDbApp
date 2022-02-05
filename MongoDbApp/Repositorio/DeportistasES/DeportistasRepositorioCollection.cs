@@ -19,7 +19,7 @@ namespace MongoDbApp.Repositorio.DeportistasES
         }
         public async Task DeleteDeportistas(string id)
         {
-            var filtro = Builders<Deportistas>.Filter.Eq(x=>x.id,new MongoDB.Bson.ObjectId(id));
+            var filtro = Builders<Deportistas>.Filter.Eq(x=>x.id,id);
             await collectin.DeleteOneAsync(filtro);
         }
 

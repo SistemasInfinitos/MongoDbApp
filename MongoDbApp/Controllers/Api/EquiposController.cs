@@ -31,7 +31,6 @@ namespace MongoDbApp.Controllers.Api
             var equipos = await Task.Run(() => _repositoryEquipos.GetListEquipos());
             foreach (var item in equipos)
             {
-                item.idTex = item.id.ToString();
                 item.fechaTex = item.fecha.ToString("yyyy-MM-dd", culture);
             }
             if (equipos != null || equipos.Count() > 0)
@@ -55,9 +54,8 @@ namespace MongoDbApp.Controllers.Api
             if (!string.IsNullOrWhiteSpace(id))
             {
                 var equipo = await Task.Run(() => _repositoryEquipos.GetEquiposById(id));
-                if (equipo != null && equipo.id.Increment > 0)
+                if (equipo != null)
                 {
-                    equipo.idTex = equipo.id.ToString();
                     response.Message = "ok";
                     response.Ok = true;
                     var data = new { equipo, response };
@@ -121,9 +119,8 @@ namespace MongoDbApp.Controllers.Api
             };
             try
             {
-                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.idTex))
+                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.id))
                 {
-                    entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
                     await Task.Run(() => _repositoryEquipos.UpdateEquipo(entidad));
                 }
                 else

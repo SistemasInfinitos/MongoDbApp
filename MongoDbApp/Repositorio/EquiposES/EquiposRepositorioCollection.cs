@@ -20,7 +20,7 @@ namespace MongoDbApp.Repositorio.EquiposES
         }
         public async Task DeleteEquipo(string id)
         {
-            var filtro = Builders<Equipos>.Filter.Eq(x => x.id, new MongoDB.Bson.ObjectId(id));
+            var filtro = Builders<Equipos>.Filter.Eq(x => x.id, id);
             await collectin.DeleteOneAsync(filtro);
         }
 

@@ -22,7 +22,7 @@
             <form class="user" style="margin:2%">
                 <div class="form-group row">
                     <div class="col-sm-3 mb-3 mb-sm-3" hidden>
-                        <input type="number" class="form-control" id="idText" name="idText" placeholder="Id" required readonly>
+                        <input type="number" class="form-control" id="id" name="id" placeholder="Id" required readonly>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-3">
                         <label class="col-form-label" name="Nombre"><span style="color:red">*</span>Nombre</label>
@@ -58,7 +58,7 @@
 </div>
 <script>
     var update = false;
-    var idText = "";
+    var id = "";
     var idEquipo = "";
 
     $(document).ready(function () {
@@ -68,14 +68,15 @@
     });
 
     $("#btnCrear").click(function () {
-        
+        var idEquipo = $("#idEquipo").val();
+        debugger
         var data = {
-            idTex: idText,
+            id: id,
             nombre: $("#nombre").val(),
             numero: $("#numero").val(),
             posicion: $("#posicion").val(),
             documento: $("#documento").val(),
-            idEquipo: $("#idEquipo").val()
+            idEquipo: idEquipo
         }
         var entidad = JSON.stringify(data);
         if (update == false) {
@@ -107,7 +108,7 @@
                 }
             });
         }
-        else if (idText != "" && idText != undefined && idText != NaN) {
+        else if (id != "" && id != undefined && id != NaN) {
             $.ajax({
                 url: 'https://localhost:44331/api/Deportistas/UpdateDeportista',
                 'type': 'PUT',
@@ -142,7 +143,7 @@
 
     function getDeportista() {
         
-        var id= '@ViewBag.idString';
+        id= '@ViewBag.idString';
         if (id != "" && id != undefined && id != NaN) {
             var uri = 'https://localhost:44331/api/Deportistas/GetUnDeportistaById';
             var url = uri + '?' + $.param({ "id": id });
@@ -151,7 +152,7 @@
                 type: 'get',
                 success: function (data) {
                     
-                    $("#idText").val("");
+                    $("#id").val("");
                     $("#nombre").val("");
                     $("#numero").val("");
                     $("#posicion").val("");
@@ -162,8 +163,8 @@
                         toastr.success(data.response.message);
                         update = true;
 
-                        idText=data.deportista.idTex;
-                        $("#idText").val(data.deportista.idTex);
+                        id=data.deportista.id;
+                        $("#id").val(data.deportista.id);
                         $("#nombre").val(data.deportista.nombre);
                         $("#numero").val(data.deportista.numero);
                         $("#posicion").val(data.deportista.posicion);
@@ -199,8 +200,9 @@
                 debugger
                 if (data.ok) {
                     $(data.equipos).each(function (i) {
+                        debugger
                         $('#idEquipo').append($('<option>', {
-                            value: data.equipos[i].idTex,
+                            value: data.equipos[i].id,
                             text: data.equipos[i].nombreEquipo,
                         }));
                     });

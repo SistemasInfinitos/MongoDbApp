@@ -10,14 +10,13 @@ namespace MongoDbApp.Models
     public class Equipos
     {
         [BsonId]
-        public ObjectId id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
         public string nombreEquipo { get; set; }
         public DateTime fecha { get; set; }
 
         [BsonIgnore]
+        [BsonRepresentation(BsonType.DateTime)]
         public virtual string fechaTex { get; set; }
-        [BsonIgnore]
-        public virtual string idTex { get; set; }
-
     }
 }

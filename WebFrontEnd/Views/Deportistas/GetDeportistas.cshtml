@@ -57,7 +57,7 @@
                         $('#tableDeportistas').find('tbody').append(
                             `<tr id="">
                                 <td align="right">
-                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionDeportistas('${response.deportistas[i].idTex}')">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionDeportistas('${response.deportistas[i].id}')">
                                         <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
                                     </button>
                                 </td>
@@ -67,7 +67,7 @@
                                 <td align="right">${ response.deportistas[i].documento}</td>
                                 <td align="right">${ response.deportistas[i].fechaTex}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarDeportista('${response.deportistas[i].idTex}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarDeportista('${response.deportistas[i].id}')">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>
@@ -91,7 +91,7 @@
     }
 
     function GestionDeportistas(id) {
-        debugger
+        
         if (id != "" && id != undefined && id != NaN) {
             var url = '?' + $.param({ "id": id });
             window.location.href = "/Deportistas/GestionDeportistas/" + id;
@@ -99,7 +99,7 @@
     };
 
     function BorrarDeportista(id) {
-        debugger
+        
         if (id != "" && id != undefined && id != NaN) {
             var uri = 'https://localhost:44331/api/Deportistas/DeleteDeportista';
             var url = uri + '?' + $.param({ "idString": id });
@@ -107,7 +107,7 @@
                 url: url,
                 type: 'DELETE',
                 success: function (ok) {
-                    debugger
+                    
                     if (ok) {
                         toastr.success("success!");
                     } else {
