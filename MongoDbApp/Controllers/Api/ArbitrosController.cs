@@ -31,7 +31,6 @@ namespace MongoDbApp.Controllers.Api
             var arbitros = await Task.Run(() => _repositoryArbitros.GetListArbitros());
             foreach (var item in arbitros)
             {
-                item.idTex = item.id.ToString();
                 item.fechaTex = item.fecha.ToString("yyyy-MM-dd", culture);
             }
             if (arbitros != null || arbitros.Count() > 0)
@@ -55,9 +54,8 @@ namespace MongoDbApp.Controllers.Api
             if (!string.IsNullOrWhiteSpace(id))
             {
                 var arbitro = await Task.Run(() => _repositoryArbitros.GetArbitroById(id));
-                if (arbitro != null && arbitro.id.Increment > 0)
+                if (arbitro != null /*&& arbitro.id.Increment > 0*/)
                 {
-                    arbitro.idTex = arbitro.id.ToString();
                     response.Message = "ok";
                     response.Ok = true;
                     var data = new { arbitro, response };
@@ -121,9 +119,9 @@ namespace MongoDbApp.Controllers.Api
             };
             try
             {
-                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.idTex))
+                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.id))
                 {
-                    entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
+                    //entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
                     await Task.Run(() => _repositoryArbitros.UpdateArbitro(entidad));
                 }
                 else

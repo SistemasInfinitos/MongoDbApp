@@ -11,14 +11,32 @@ namespace MongoDbApp.Models
         [BsonId]
         public ObjectId id { get; set; }
         public string encuentro { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idTemporada { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idEquipoA { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idEquipoB { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idArbitro { get; set; }
         public DateTime fecha { get; set; }
         public List<Resultados> listResultados { get; set; }
         public List<ResultadosEquipo> listResultadosEquipo { get; set; }
 
+    }
+    public class Encuentros 
+    {
+        [BsonId]
+        public ObjectId id { get; set; }
+        public string encuentro { get; set; }
+        public string nombreEquipo { get; set; }
+        public DateTime fecha { get; set; }
+        public List<Resultados> listResultados { get; set; }
+        public List<ResultadosEquipo> listResultadosEquipo { get; set; }
     }
     public class ReadOnlyEncuentrosDeportivos
     {

@@ -56,7 +56,7 @@
                         $('#tableArbitros').find('tbody').append(
                             `<tr id="">
                                 <td align="right">
-                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionArbitros('${response.arbitros[i].idTex}')">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionArbitros('${response.arbitros[i].id}')">
                                         <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
                                     </button>
                                 </td>
@@ -65,7 +65,7 @@
                                 <td align="right">${ response.arbitros[i].documento}</td>
                                 <td align="right">${ response.arbitros[i].fechaTex}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarArbitro('${response.arbitros[i].idTex}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarArbitro('${response.arbitros[i].id}')">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>
@@ -103,7 +103,6 @@
                 url: url,
                 type: 'DELETE',
                 success: function (ok) {
-                    debugger
                     if (ok) {
                         toastr.success("success!");
                     } else {
@@ -112,7 +111,6 @@
                     GetArbitros();
                 },
                 error: function (jQXHR) {
-                    debugger
                     toastr.error('error, No pudimos procesar su Solicitud!');
                 }
             });

@@ -20,7 +20,8 @@ namespace MongoDbApp.Repositorio.ArbitrosES
         }
         public async Task DeleteArbitro(string id)
         {
-            var filtro = Builders<Arbitros>.Filter.Eq(x => x.id, new MongoDB.Bson.ObjectId(id));
+            //var filtro = Builders<Arbitros>.Filter.Eq(x => x.id, new MongoDB.Bson.ObjectId(id));
+            var filtro = Builders<Arbitros>.Filter.Eq(x => x.id, id);
             await collectin.DeleteOneAsync(filtro);
         }
 

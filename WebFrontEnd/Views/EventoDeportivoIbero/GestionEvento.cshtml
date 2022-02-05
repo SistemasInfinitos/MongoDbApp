@@ -258,13 +258,18 @@
 
     $("#btnCrear").click(function () {
 
+        var idTemporada = $("#idTemporada").val();
+        var idEquipoA = $("#idEquipoA").val();
+        var idEquipoB = $("#idEquipoB").val();
+        var idArbitro = $("#idArbitro").val();
+        var encuentro = $("#encuentro").val();
         var data = {
             idTex: idText,
-            idTemporada: $("#idTemporada").val(),
-            encuentro: $("#encuentro").val(),
-            idEquipoA: $("#idEquipoA").val(),
-            idEquipoB: $("#idEquipoB").val(),
-            idArbitro: $("#idArbitro").val(),
+            idTemporada: idTemporada,
+            encuentro: encuentro,
+            idEquipoA: idEquipoA,
+            idEquipoB: idEquipoB,
+            idArbitro: idArbitro,
             listResultados: listResultados,
             listResultadosEquipo: listResultadosEquipo
         }

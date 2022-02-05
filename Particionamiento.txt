@@ -6,15 +6,11 @@ start /b mongod --port 26003 --configsvr --replSet replicaTorneoShardServer --db
 start /b mongod --shardsvr --port 27006 --replSet replicaTorneoP1 --dbpath /dataP11 --oplogSize 115
 start /b mongod --shardsvr --port 27007 --replSet replicaTorneoP1 --dbpath /dataP12 --oplogSize 115
 start /b mongod --shardsvr --port 27008 --replSet replicaTorneoP1 --dbpath /dataP13 --oplogSize 115
-
 start /b mongod --shardsvr --port 27013 --replSet replicaTorneoP1 --dbpath /dataP14 --oplogSize 115
-
 start /b mongod --shardsvr --port 27009 --replSet replicaTorneoP2 --dbpath /dataP21 --oplogSize 115
 start /b mongod --shardsvr --port 27010 --replSet replicaTorneoP2 --dbpath /dataP22 --oplogSize 115
 start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /dataP23 --oplogSize 115
-
 start /b mongod --shardsvr --port 27012 --replSet replicaTorneoP2 --dbpath /dataP24 --oplogSize 115
-
 start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003
 start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --port 26601
 sh.status()

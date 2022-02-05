@@ -13,22 +13,9 @@ namespace MongoDbApp.Models
     {
         [BsonId]
         public ObjectId id { get; set; }
-
-        /// <summary>
-        /// Nombre juados
-        /// </summary>
         public string temporada { get; set; }
-
-        /// <summary>
-        /// numero camiseta
-        /// </summary>
         public int equipo { get; set; }
-
-        /// <summary>
-        /// fecha registro
-        /// </summary>
         public DateTime fecha { get; set; }
-
         public bool gano { get; set; }
         public bool empate { get; set; }
         public bool perdio { get; set; }

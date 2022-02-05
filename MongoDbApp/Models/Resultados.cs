@@ -8,7 +8,10 @@ namespace MongoDbApp.Models
 {
     public class Resultados: ReadOnlyResultados
     {
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idEquipo { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idDeportista { get; set; }
         public int goles { get; set; }
     }
@@ -16,12 +19,12 @@ namespace MongoDbApp.Models
     public class ReadOnlyResultados 
     {
         [BsonIgnore]
-        public string equipo { get; set; }
+        public virtual string equipo { get; set; }
 
         [BsonIgnore]
-        public string deportista { get; set; }
+        public virtual string deportista { get; set; }
 
         [BsonIgnore]
-        public bool gano { get; set; }
+        public virtual bool gano { get; set; }
     }
 }

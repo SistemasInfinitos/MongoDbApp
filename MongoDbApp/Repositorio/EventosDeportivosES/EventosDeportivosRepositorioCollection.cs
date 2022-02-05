@@ -61,12 +61,12 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
                 item.idTex = item.id.ToString();
                 item.fechaTex = item.fecha.ToString("yyyy-MM-dd", culture);
 
-                item.asTemporadas = await collectinTemporadas.FindAsync(new BsonDocument { { "_id", new ObjectId(item.idTemporada) } }).Result.FirstAsync();
-                item.asEquiposA = await collectinEquipos.FindAsync(new BsonDocument { { "_id", new ObjectId(item.idEquipoA) } }).Result.FirstAsync();
-                item.asEquiposB = await collectinEquipos.FindAsync(new BsonDocument { { "_id", new ObjectId(item.idEquipoB) } }).Result.FirstAsync();
-                item.asArbitro = await collectinArbitros.FindAsync(new BsonDocument { { "_id", new ObjectId(item.idArbitro) } }).Result.FirstAsync();
+                item.asTemporadas = await collectinTemporadas.FindAsync(new BsonDocument { { "_id", (item.idTemporada) } }).Result.FirstAsync();
+                item.asEquiposA = await collectinEquipos.FindAsync(new BsonDocument { { "_id", (item.idEquipoA) } }).Result.FirstAsync();
+                item.asEquiposB = await collectinEquipos.FindAsync(new BsonDocument { { "_id", (item.idEquipoB) } }).Result.FirstAsync();
+                item.asArbitro = await collectinArbitros.FindAsync(new BsonDocument { { "_id", (item.idArbitro) } }).Result.FirstAsync();
 
-                if (item.listResultados.Count()>0)
+                if (item.listResultados.Count() > 0)
                 {
                     foreach (var resultado in item.listResultados)
                     {
@@ -86,25 +86,37 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
 
             // esto obtiene consultas unidas entre tablas pero no se como se serializan los datos dentro de EncuentrosDeportivos
             #region
-            var query = from eco in collectinEncuentrosDeportivos.AsQueryable()
-                        join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.idTex into joined
-                        select new { eco.temporada };
+
+            //var query = from eco in collectinEncuentrosDeportivos.AsQueryable()
+            //            join tem in collectinTemporadas.AsQueryable() on eco.idTemporada equals tem.idTex into joined
+            //            select new { eco.temporada };
 
 
-            var docs = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").ToList();
-            var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
-            var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
+            //var docs = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas")
+            //.Project(p => new {id= p.GetValue("id"), nombreEquipo=p.GetValue("nombreEquipo") })
+            //.Sort(new BsonDocument("other.name", -1))
+            //.ToList(); 
+
+            //var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas").ToList();
+            //var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
+            //var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
 
 
-            var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
-            //Entonces lo necesitas para convertir a JSON
+            //var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
 
-            String ConvertToJson = docs[0].AsBsonDocument.ToJson();
-            String resultsConvertToJson = ConvertToJson.ToJson();
+            //var i=0;
+            //var query2 = collectinEncuentrosDeportivos.Aggregate()
+            //    //.Match(p => listNames.Contains(p.name))
+            //    .Lookup(
+            //      foreignCollection: collectinEquipos,
+            //      localField: e => e.idEquipoA,
+            //      foreignField: f => f.id,
+            //      @as: (Encuentros eo) => eo.encuentro
+            //    )
+            //    .Project(p => new {p.id, p.nombreEquipo})
+            //    //.Sort(new BsonDocument("other.name", -1))
+            //    .ToList();
 
-            //Luego use BSONSerialize y colóquelo en C# Strongly typed Collection
-
-            //List<EncuentrosDeportivos> results = BsonSerializer.Deserialize<List<EncuentrosDeportivos>>(ConvertToJson, null);
             return listEncuentros;
             #endregion
         }

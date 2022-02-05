@@ -12,40 +12,20 @@ namespace MongoDbApp.Models
         [BsonId]
         public ObjectId id { get; set; }
 
-        [BsonIgnore]
-        public string idTex { get; set; }
-
-        /// <summary>
-        /// Nombre juados
-        /// </summary>
         public string nombre { get; set; }
-
-        /// <summary>
-        /// numero camiseta
-        /// </summary>
         public int numero { get; set; }
-
-        /// <summary>
-        /// posicion en el area de juego ejemplo: DC defensa central
-        /// </summary>
         public string posicion { get; set; }
-
-        /// <summary>
-        /// identificacion del jugador
-        /// </summary>
         public string documento { get; set; }
-
-        /// <summary>
-        /// fecha registro
-        /// </summary>
         public DateTime fecha { get; set; }
 
-        [BsonIgnore]
-        public string fechaTex { get; set; }
-
-        /// <summary>
-        /// id automatico de la tabla de equipos
-        /// </summary>
+        [BsonRepresentation(BsonType.ObjectId)]
         public string idEquipo { get; set; }
+
+
+        [BsonIgnore]
+        public virtual string idTex { get; set; }
+
+        [BsonIgnore]
+        public virtual string fechaTex { get; set; }
     }
 }

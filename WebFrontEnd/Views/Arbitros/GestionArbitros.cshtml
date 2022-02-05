@@ -22,7 +22,7 @@
             <form class="user" style="margin:2%">
                 <div class="form-group row">
                     <div class="col-sm-3 mb-3 mb-sm-3" hidden>
-                        <input type="number" class="form-control" id="idText" name="idText" placeholder="Id" required readonly>
+                        <input type="number" class="form-control" id="id" name="id" placeholder="Id" required readonly>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-3">
                         <label class="col-form-label" name="Nombre"><span style="color:red">*</span>Nombre</label>
@@ -48,21 +48,22 @@
 </div>
 <script>
     var update = false;
-    var idText = "";
+    var id = "";
 
     $(document).ready(function () {
         getArbitro();
     });
 
     $("#btnCrear").click(function () {
-        
+        debugger
         var data = {
-            idTex: idText,
+            id: id,
             nombre: $("#nombre").val(),
             numero: $("#numero").val(),
             documento: $("#documento").val(),
         }
         var entidad = JSON.stringify(data);
+        debugger
         if (update == false) {
             $.ajax({
                 url: 'https://localhost:44331/api/Arbitros/CreateArbitro',
@@ -91,7 +92,7 @@
                 }
             });
         }
-        else if (idText != "" && idText != undefined && idText != NaN) {
+        else if (id != "" && id != undefined && id != NaN) {
             $.ajax({
                 url: 'https://localhost:44331/api/Arbitros/UpdateArbitro',
                 'type': 'PUT',
@@ -126,7 +127,8 @@
     });
 
     function getArbitro() {
-        var id= '@ViewBag.idString';
+        debugger
+        id= '@ViewBag.idString';
         if (id != "" && id != undefined && id != NaN) {
             var uri = 'https://localhost:44331/api/Arbitros/GetUnArbitroById';
             var url = uri + '?' + $.param({ "id": id });
@@ -134,17 +136,17 @@
                 url: url,
                 type: 'get',
                 success: function (data) {
-                    $("#idText").val("");
+                    $("#id").val("");
                     $("#nombre").val("");
                     $("#numero").val("");
                     $("#documento").val("");
-
+                    debugger
                     if (data.response.ok) {
                         toastr.success(data.response.message);
                         update = true;
 
-                        idText = data.arbitro.idTex;
-                        $("#idText").val(data.arbitro.idTex);
+                        id = data.arbitro.id;
+                        $("#id").val(data.arbitro.id);
                         $("#nombre").val(data.arbitro.nombre);
                         $("#numero").val(data.arbitro.numero);
                         $("#documento").val(data.arbitro.documento);
