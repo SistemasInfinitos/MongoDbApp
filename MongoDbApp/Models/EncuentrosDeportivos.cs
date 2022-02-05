@@ -32,7 +32,8 @@ namespace MongoDbApp.Models
     public class Encuentros 
     {
         [BsonId]
-        public ObjectId id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
         public string encuentro { get; set; }
         public string nombreEquipo { get; set; }
         public DateTime fecha { get; set; }

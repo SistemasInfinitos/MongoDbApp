@@ -96,14 +96,14 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             //.Sort(new BsonDocument("other.name", -1))
             //.ToList(); 
 
-            //var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas").ToList();
-            //var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
+            var docs2 = collectinEncuentrosDeportivos.Aggregate().Lookup("Equipos", "idEquipoA", "id", "asTemporadas").ToList();
+            var docs3 = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").As<BsonDocument>().ToList();
             //var dd = collectinEncuentrosDeportivos.Aggregate().Lookup("Nombre de la colección extranjera", "Nombre del campo local", "Nombre del campo extranjero", "resultado");
 
 
             //var res = collectinEncuentrosDeportivos.Aggregate().Lookup("Temporadas", "idTemporada", "idTex", "asTemporadas").Project(Builders<BsonDocument>.Projection.Exclude("_id")).ToList();
 
-            //var i=0;
+            var i = 0;
             //var query2 = collectinEncuentrosDeportivos.Aggregate()
             //    //.Match(p => listNames.Contains(p.name))
             //    .Lookup(
@@ -112,7 +112,7 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             //      foreignField: f => f.id,
             //      @as: (Encuentros eo) => eo.encuentro
             //    )
-            //    .Project(p => new {p.id, p.nombreEquipo})
+            //    .Project(p => new { p.id, p.nombreEquipo })
             //    //.Sort(new BsonDocument("other.name", -1))
             //    .ToList();
 
