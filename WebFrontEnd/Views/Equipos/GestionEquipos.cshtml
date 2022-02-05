@@ -22,7 +22,7 @@
             <form class="user" style="margin:2%">
                 <div class="form-group row">
                     <div class="col-sm-3 mb-3 mb-sm-3" hidden>
-                        <input type="number" class="form-control" id="idText" name="idText" placeholder="Id" required readonly>
+                        <input type="number" class="form-control" id="id" name="id" placeholder="Id" required readonly>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-3">
                         <label class="col-form-label" name="nombreEquipo"><span style="color:red">*</span>Nombre Equipo</label>
@@ -39,7 +39,7 @@
 </div>
 <script>
     var update = false;
-    var idText = "";
+    var id = "";
 
     $(document).ready(function () {
         getEquipo();
@@ -48,7 +48,7 @@
     $("#btnCrear").click(function () {
 
         var data = {
-            idTex: idText,
+            id: id,
             nombreEquipo: $("#nombreEquipo").val(),
         }
         var entidad = JSON.stringify(data);
@@ -79,7 +79,7 @@
                 }
             });
         }
-        else if (idText != "" && idText != undefined && idText != NaN) {
+        else if (id != "" && id != undefined && id != NaN) {
             $.ajax({
                 url: 'https://localhost:44331/api/Equipos/UpdateEquipo',
                 'type': 'PUT',
@@ -112,7 +112,7 @@
     });
 
     function getEquipo() {
-        var id= '@ViewBag.idString';
+        id= '@ViewBag.idString';
         if (id != "" && id != undefined && id != NaN) {
             var uri = 'https://localhost:44331/api/Equipos/GetUnEquipoById';
             var url = uri + '?' + $.param({ "id": id });
@@ -120,15 +120,15 @@
                 url: url,
                 type: 'get',
                 success: function (data) {
-                    $("#idText").val("");
+                    $("#id").val("");
                     $("#nombreEquipo").val("");
 
                     if (data.response.ok) {
                         toastr.success(data.response.message);
                         update = true;
 
-                        idText = data.equipo.idTex;
-                        $("#idText").val(data.equipo.idTex);
+                        id = data.equipo.id;
+                        $("#id").val(data.equipo.id);
                         $("#nombreEquipo").val(data.equipo.nombreEquipo);
 
                     } else {

@@ -54,14 +54,14 @@
                         $('#tableEquipos').find('tbody').append(
                             `<tr id="">
                                 <td align="right">
-                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionEquipos('${response.equipos[i].idTex}')">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionEquipos('${response.equipos[i].id}')">
                                         <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
                                     </button>
                                 </td>
                                 <td align="right">${ response.equipos[i].nombreEquipo}</td>
                                 <td align="right">${ response.equipos[i].fechaTex}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarEquipo('${response.equipos[i].idTex}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarEquipo('${response.equipos[i].id}')">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>
