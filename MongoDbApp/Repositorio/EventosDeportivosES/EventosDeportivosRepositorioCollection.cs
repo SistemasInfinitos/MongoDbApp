@@ -58,13 +58,12 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             listEncuentros = await collectinEncuentrosDeportivos.FindAsync(new BsonDocument()).Result.ToListAsync();
             foreach (var item in listEncuentros)
             {
-                item.idTex = item.id.ToString();
                 item.fechaTex = item.fecha.ToString("yyyy-MM-dd", culture);
 
-                item.asTemporadas = await collectinTemporadas.FindAsync(new BsonDocument { { "_id", (item.idTemporada) } }).Result.FirstAsync();
-                item.asEquiposA = await collectinEquipos.FindAsync(new BsonDocument { { "_id", (item.idEquipoA) } }).Result.FirstAsync();
-                item.asEquiposB = await collectinEquipos.FindAsync(new BsonDocument { { "_id", (item.idEquipoB) } }).Result.FirstAsync();
-                item.asArbitro = await collectinArbitros.FindAsync(new BsonDocument { { "_id", (item.idArbitro) } }).Result.FirstAsync();
+                item.asTemporadas = await collectinTemporadas.FindAsync(x => x.id == item.idTemporada).Result.FirstAsync();
+                item.asEquiposA = await collectinEquipos.FindAsync(x => x.id == item.idEquipoA).Result.FirstAsync();
+                item.asEquiposB = await collectinEquipos.FindAsync(x => x.id == item.idEquipoB).Result.FirstAsync();
+                item.asArbitro = await collectinArbitros.FindAsync(x => x.id == item.idArbitro).Result.FirstAsync();
 
                 if (item.listResultados.Count() > 0)
                 {
@@ -126,27 +125,12 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
             entidad.fecha = DateTime.Now;
             await collectinEncuentrosDeportivos.InsertOneAsync(entidad);
 
-            entidad.idTex = entidad.id.ToString();
             entidad.fechaTex = entidad.fecha.ToString("yyyy-MM-dd", culture);
-
-            if (!string.IsNullOrWhiteSpace(entidad.idTex)&& entidad.idTex!= "000000000000000000000000")
-            {
-                var docs = collectinEncuentrosDeportivos.Aggregate()
-                                     .Lookup("temporada", "idTemporada", "_id", "asTemporadas")
-                                     .As<BsonDocument>().ToList();
-
-                foreach (var doc in docs)
-                {
-                    var dat = doc.ToJson();
-                }
-            }
-
             return entidad;
         }
 
         public async Task<EncuentrosDeportivos> UpdateEncuentrosDeportivo(EncuentrosDeportivos entidad)
         {
-            entidad.idTex = null;
             var builder = Builders<EncuentrosDeportivos>.Update.Set(x => x.id, entidad.id);
 
             foreach (PropertyInfo prop in entidad.GetType().GetProperties())
@@ -171,15 +155,11 @@ namespace MongoDbApp.Repositorio.EventosDeportivosES
 
             var result=await collectinEncuentrosDeportivos.UpdateOneAsync(filter_def, builder);
             return entidad;
-
-            //var filtro = Builders<EncuentrosDeportivos>.Filter.Eq(x => x.id, entidad.id);
-            //entidad.fecha = DateTime.Now;
-            //await collectinEncuentrosDeportivos.ReplaceOneAsync(filtro, entidad);
         }
 
         public async Task DeleteEncuentrosDeportivo(string id)
         {
-            var filtro = Builders<EncuentrosDeportivos>.Filter.Eq(x => x.id, new MongoDB.Bson.ObjectId(id));
+            var filtro = Builders<EncuentrosDeportivos>.Filter.Eq(x => x.id,id);
             await collectinEncuentrosDeportivos.DeleteOneAsync(filtro);
         }
         #endregion

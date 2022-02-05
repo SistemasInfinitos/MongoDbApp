@@ -9,7 +9,8 @@ namespace MongoDbApp.Models
     public class EncuentrosDeportivos: ReadOnlyEncuentrosDeportivos
     {
         [BsonId]
-        public ObjectId id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
         public string encuentro { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
@@ -41,9 +42,7 @@ namespace MongoDbApp.Models
     public class ReadOnlyEncuentrosDeportivos
     {
         [BsonIgnore]
-        public string idTex { get; set; }
-
-        [BsonIgnore]
+        [BsonRepresentation(BsonType.DateTime)]
         public string fechaTex { get; set; }
 
         [BsonIgnore]

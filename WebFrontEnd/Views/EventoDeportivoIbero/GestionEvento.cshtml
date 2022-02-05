@@ -22,7 +22,7 @@
         <form class="user" style="margin:2%">
             <div class="form-group row">
                 <div class="col-sm-3 mb-3 mb-sm-3" hidden>
-                    <input type="text" class="form-control" id="idText" name="idText" placeholder="Id" required readonly>
+                    <input type="text" class="form-control" id="id" name="id" placeholder="Id" required readonly>
                 </div>
                 <div class="col-sm-3 mb-3 mb-sm-3">
                     <label class="col-form-label" name="encuentro"><span style="color:red">*</span>Encuentro</label>
@@ -117,7 +117,7 @@
 <script>
 
     var update = false;
-    var idText = "";
+    var id = "";
     var idEquipoA = "";
     var idEquipoB = "";
     var idTemporada = "";
@@ -136,12 +136,6 @@
         DropListArbitro();
         DropListJugador();
     });
-
-    class resultados extends Array {
-        sum(key) {
-            return this.reduce((a, b) => a + (b[key] || 0), 0);
-        }
-    }
 
     $("#btnAdd").click(function Add() {
         
@@ -264,7 +258,7 @@
         var idArbitro = $("#idArbitro").val();
         var encuentro = $("#encuentro").val();
         var data = {
-            idTex: idText,
+            id: id,
             idTemporada: idTemporada,
             encuentro: encuentro,
             idEquipoA: idEquipoA,
@@ -291,8 +285,8 @@
                     
                     if (data) {
                         update = true;
-                        idText = data.idTex;
-                        $("#idText").val(data.idTex);
+                        id = data.id;
+                        $("#id").val(data.id);
                         $("#encuentro").val(data.encuentro);
                         $("#idEquipoA").val(data.idEquipoA);
                         idEquipoA = data.idEquipoA;
@@ -347,7 +341,7 @@
                 }
             });
         }
-        else if (idText != "" && idText != undefined && idText != NaN) {
+        else if (id != "" && id != undefined && id != NaN) {
             
             $.ajax({
                 url: 'https://localhost:44331/api/EventosDeportivos/UpdateEncuentrosDeportivo',
@@ -428,7 +422,7 @@
                 type: 'get',
                 success: function (data) {
                     
-                    $("#idText").val("");
+                    $("#id").val("");
                     $("#idEquipoA").val("");
                     $("#idEquipoB").val("");
                     $("#idTemporada").val("");
@@ -439,8 +433,8 @@
                         toastr.success(data.response.message);
                         update = true;
 
-                        idText = data.evento.idTex;
-                        $("#idText").val(data.evento.idTex);
+                        id = data.evento.id;
+                        $("#id").val(data.evento.id);
                         $("#encuentro").val(data.evento.encuentro);
                         $("#idEquipoA").val(data.evento.idEquipoA);
                         idEquipoA=data.evento.idEquipoA;
@@ -517,7 +511,7 @@
                 if (data.ok) {
                     $(data.equipos).each(function (i) {
                         $('#idEquipoA').append($('<option>', {
-                            value: data.equipos[i].idTex,
+                            value: data.equipos[i].id,
                             text: data.equipos[i].nombreEquipo,
                         }));
                     });
@@ -533,7 +527,7 @@
                 if (data.ok) {
                     $(data.equipos).each(function (i) {
                         $('#idEquipoB').append($('<option>', {
-                            value: data.equipos[i].idTex,
+                            value: data.equipos[i].id,
                             text: data.equipos[i].nombreEquipo,
                         }));
                     });
@@ -550,7 +544,7 @@
                 if (data.ok) {
                     $(data.equipos).each(function (i) {
                         $('#idEquipo').append($('<option>', {
-                            value: data.equipos[i].idTex,
+                            value: data.equipos[i].id,
                             text: data.equipos[i].nombreEquipo,
                         }));
                     });
@@ -580,7 +574,7 @@
                 if (data.ok) {
                     $(data.temporadas).each(function (i) {
                         $('#idTemporada').append($('<option>', {
-                            value: data.temporadas[i].idTex,
+                            value: data.temporadas[i].id,
                             text: data.temporadas[i].temporada,
                         }));
                     });
@@ -615,7 +609,7 @@
                 if (data.ok) {
                     $(data.arbitros).each(function (i) {
                         $('#idArbitro').append($('<option>', {
-                            value: data.arbitros[i].idTex,
+                            value: data.arbitros[i].id,
                             text: data.arbitros[i].nombre,
                         }));
                     });
@@ -646,7 +640,7 @@
                 if (data.ok) {
                     $(data.deportistas).each(function (i) {
                         $('#idDeportista').append($('<option>', {
-                            value: data.deportistas[i].idTex,
+                            value: data.deportistas[i].id,
                             text: data.deportistas[i].nombre,
                         }));
                     });

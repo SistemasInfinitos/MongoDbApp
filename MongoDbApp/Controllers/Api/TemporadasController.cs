@@ -31,7 +31,6 @@ namespace MongoDbApp.Controllers.Api
             var temporadas = await Task.Run(() => _repositoryTemporadas.GetListTemporadas());
             foreach (var item in temporadas)
             {
-                item.idTex = item.id.ToString();
                 item.fechaTex = item.fecha.ToString("yyyy-MM-dd", culture);
                 item.fechaInicioTex = item.fechaInicio.ToString("yyyy-MM-dd", culture);
                 item.fechaFinTex = item.fechaFin.ToString("yyyy-MM-dd", culture);
@@ -57,9 +56,8 @@ namespace MongoDbApp.Controllers.Api
             if (!string.IsNullOrWhiteSpace(id))
             {
                 var temporada = await Task.Run(() => _repositoryTemporadas.GetTemporadaById(id));
-                if (temporada != null && temporada.id.Increment > 0)
+                if (temporada != null)
                 {
-                    temporada.idTex = temporada.id.ToString();
                     temporada.fechaInicioTex = temporada.fechaInicio.ToString("yyyy-MM-dd", culture);
                     temporada.fechaFinTex = temporada.fechaFin.ToString("yyyy-MM-dd", culture);
 
@@ -126,9 +124,8 @@ namespace MongoDbApp.Controllers.Api
             };
             try
             {
-                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.idTex))
+                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.id))
                 {
-                    entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
                     await Task.Run(() => _repositoryTemporadas.UpdateTemporada(entidad));
                 }
                 else

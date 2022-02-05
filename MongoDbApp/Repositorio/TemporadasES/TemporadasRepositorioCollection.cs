@@ -20,7 +20,7 @@ namespace MongoDbApp.Repositorio.TemporadasES
         }
         public async Task DeleteTemporada(string id)
         {
-            var filtro = Builders<Temporadas>.Filter.Eq(x => x.id, new MongoDB.Bson.ObjectId(id));
+            var filtro = Builders<Temporadas>.Filter.Eq(x => x.id, id);
             await collectin.DeleteOneAsync(filtro);
         }
 

@@ -10,14 +10,13 @@ namespace MongoDbApp.Models
     public class Temporadas
     {
         [BsonId]
-        public ObjectId id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
         public string temporada { get; set; }
         public DateTime fecha { get; set; }
         public DateTime fechaInicio { get; set; }
         public DateTime fechaFin { get; set; }
 
-        [BsonIgnore]
-        public virtual string idTex { get; set; }
         [BsonIgnore]
         public virtual string fechaFinTex { get; set; }
         [BsonIgnore]

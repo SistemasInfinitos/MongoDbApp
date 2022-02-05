@@ -51,9 +51,8 @@ namespace MongoDbApp.Controllers.Api
             if (!string.IsNullOrWhiteSpace(id))
             {
                 var evento = await Task.Run(() => _repositoryEventosDeportivos.GetEncuentrosDeportivoById(id));
-                if (evento != null && evento.id.Increment > 0)
+                if (evento != null)
                 {
-                    evento.idTex = evento.id.ToString();
                     response.Message = "ok";
                     response.Ok = true;
                     var data = new { evento, response };
@@ -117,9 +116,8 @@ namespace MongoDbApp.Controllers.Api
             };
             try
             {
-                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.idTex))
+                if (ModelState.IsValid && !string.IsNullOrWhiteSpace(entidad.id))
                 {
-                    entidad.id = new MongoDB.Bson.ObjectId(entidad.idTex);
                     var evento = await Task.Run(() => _repositoryEventosDeportivos.UpdateEncuentrosDeportivo(entidad));
                     return Ok(evento);
                 }
