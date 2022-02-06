@@ -13,6 +13,8 @@ start /b mongod --shardsvr --port 27011 --replSet replicaTorneoP2 --dbpath /data
 start /b mongod --shardsvr --port 27012 --replSet replicaTorneoP2 --dbpath /dataP24 --oplogSize 115
 start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003
 start /b mongos --configdb configrs/127.0.0.1:26001,127.0.0.1:26002,127.0.0.1:26003 --port 26601
+
+
 sh.status()
  rs.add( {  host:"127.0.0.1:27013" } )
  rs.add( {  host:"127.0.0.1:27012" } )
