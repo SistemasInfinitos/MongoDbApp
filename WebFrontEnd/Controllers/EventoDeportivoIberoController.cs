@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebFrontEnd.Controllers
 {
-    public class EventoDeportivoIberoController : Controller
+    public class EventoDeportivoController : Controller
     {
         #region Deportistas
         public IActionResult GestionEvento(string id)
